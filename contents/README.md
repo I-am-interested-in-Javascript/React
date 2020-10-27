@@ -33,3 +33,53 @@ https://www.youtube.com/watch?v=deyxI-6C2u4&ab_channel=TraversyMedia
     * babel: 리액트에사 클래스, 애로우 펑션 같은걸 쓰기 때문...
 
 
+
+4. JSX란(https://reactjs.org/docs/introducing-jsx.html):
+It is called JSX, and it is a syntax extension to JavaScript. We recommend using it with React to describe what the UI should look like. 
+JSX Represents Objects
+Babel compiles JSX down to React.createElement() calls.
+
+```
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez',
+};
+
+const Hello = (props) => {
+  console.log(props);
+  return <h1>Hello, {formatName(user)}!</h1>;
+  
+}
+const element = <Hello className="hello">hi</Hello>;
+
+ReactDOM.render(element, document.getElementById('root'));
+
+```
+
+출력:
+```
+Object {
+  children: "hi",
+  className: "hello"
+}
+```
+
+createElement함수는 대략
+```
+export function createElement(type, props, ...children) {
+  // jsx 처리
+  if (typeof type === "function") {
+    return type.apply(null, [props, ...children]);
+  }
+  return { type, props, children };
+}
+``` 
+
+이렇게 생겼다. 그래서 Hello같은 함수를 만나면, props, children을 apply를 통해서 다시 함수로 전달해주기때문에  const Hello = (props) => { } 이렇게 props를 받아오게 되는 구조
+
+jsx는 생긴건 html이랑 비슷해도 본질적으론 자바스크립트이다. (jsx없이도 react사용 가능, jsx를 사용하면 좀더 편리한 것이고, 결국 babel이 모두 변환해주는것, 이것 때문에 React.createElement함수를 사용하기 위해 import React를 모든 스크립트에서 하고 있는것)
+
